@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+
+@model LoginViewModel
+<h1>Login</h1>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <p class="text-danger"> @ViewBag.ErrorMessage </p>
+}
+
+<form asp-action="login" method="post">
+    
+    <input asp-for="UserName"  placeholder="UserName"/> <br />
+    <input asp-for="Password"  placeholder="password"/> <br />
+
+    <button type="submit">login</button>
+</form>
