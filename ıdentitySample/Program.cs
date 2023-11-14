@@ -2,7 +2,9 @@ using ýdentitySample.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using TestLayer.Managers;
+using TestLayer.Services;
+using TestLayer.Extentions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -29,6 +31,8 @@ builder.Services.AddIdentity<AppUser, AppRole>(x =>
 }).AddDefaultTokenProviders()
     .AddEntityFrameworkStores<AppDbContext>();
 
+
+builder.Services.AddTestLayetDependency();
 
 var app = builder.Build();
 

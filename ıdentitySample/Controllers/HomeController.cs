@@ -1,20 +1,27 @@
 ﻿using ıdentitySample.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using TestLayer.Services;
 
 namespace ıdentitySample.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+      private readonly ICustomService _service;
+      private readonly ICustomService2 _service2;
+
+        public HomeController(ICustomService service, ICustomService2 service2)
         {
-            _logger = logger;
+            _service = service;
+            _service2 = service2;
         }
 
         public IActionResult Index()
         {
+
+            _service.SayHello();
+            _service2.SayHello();
             return View();
         }
 
