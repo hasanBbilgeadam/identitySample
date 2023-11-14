@@ -1,7 +1,10 @@
-﻿using ıdentitySample.Context;
+﻿using AutoMapper;
+using ıdentitySample.Context;
 using ıdentitySample.Models;
+using ıdentitySample.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Runtime.CompilerServices;
 
 namespace ıdentitySample.Controllers
@@ -11,12 +14,13 @@ namespace ıdentitySample.Controllers
 
         private readonly SignInManager<AppUser> _signinManger;
         private readonly UserManager<AppUser> _userManager;
+        private IMapper _mapper;
 
-
-        public AccountController(SignInManager<AppUser> signinManger, UserManager<AppUser> userManager)
+        public AccountController(SignInManager<AppUser> signinManger, UserManager<AppUser> userManager, IMapper mapper)
         {
             _signinManger = signinManger;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public IActionResult Login()
@@ -69,23 +73,18 @@ namespace ıdentitySample.Controllers
             return View();
         }
         public IActionResult Register()
-        {
+        { 
             //_userManager.CreateAsync();
             return View();  
         }
-
         [HttpPost]
         public async Task<IActionResult> Register(SignUpViewModel vm)
         {
             //_userManager.CreateAsync();
 
 
-           var result =   await _userManager.CreateAsync(new()
-             {
-                Email= vm.Email,    
-                UserName=vm.UserName,
-
-            },vm.Password);
+            var user = _mapper.Map<AppUser>(vm);
+           var result =   await _userManager.CreateAsync(user,vm.Password);
 
 
             if (!result.Succeeded)
@@ -98,9 +97,6 @@ namespace ıdentitySample.Controllers
 
             return View();
         }
-
-
-
         public async Task<IActionResult> Logout()
         {
            
@@ -109,6 +105,17 @@ namespace ıdentitySample.Controllers
             await _signinManger.SignOutAsync();
 
             return Redirect("/");
+        }
+        public IActionResult ListUsers()
+        {
+
+           var data =   _userManager.Users.ToList();
+
+            var result =  _mapper.Map<List<AppUserListVM>>(data); 
+
+
+               return View(result);
+
         }
 
     }

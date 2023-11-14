@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using TestLayer.Managers;
 using TestLayer.Services;
 using TestLayer.Extentions;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -30,6 +32,9 @@ builder.Services.AddIdentity<AppUser, AppRole>(x =>
 
 }).AddDefaultTokenProviders()
     .AddEntityFrameworkStores<AppDbContext>();
+
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 
 builder.Services.AddTestLayetDependency();

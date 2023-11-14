@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutoMapper.Configuration.Annotations;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ıdentitySample.Models
 {
@@ -19,6 +21,8 @@ namespace ıdentitySample.Models
         //[MinLength(5,ErrorMessage ="5 karakterden az olamaz")]
         //[MaxLength(10,ErrorMessage ="10 karakterden fazla olamaz")]
 
+
+        [Ignore]
         [StringLength(15,ErrorMessage ="5'den az 15'den fazla olamaz", MinimumLength =3)]
         public string Password { get; set; }
     }
